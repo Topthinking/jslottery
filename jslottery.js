@@ -2,7 +2,7 @@
  * js抽奖类库
  * @author Topthinking
  */
-;(function(window, factory){
+/*;(function()*{
 if(typeof define == 'function'){
   define(function(require, exports, module){
     return factory(require('common:jquery'));
@@ -11,7 +11,7 @@ if(typeof define == 'function'){
   window.FeatherUi = window.FeatherUi || {};
   window.FeatherUi.Template = factory();
 }
-})(window,function($){
+}*)(*/
 
 //global 对象全局this
 //curL  当前滚动元素的位置(标志位)
@@ -165,5 +165,5 @@ Jslottery.prototype = {
 		});
 	}
 };
-return Jslottery;
-});
+/*return Jslottery;
+)};*/
