@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="./test.css">	
+</head>
+<body>
+<div class="machine">
+	<table class="machine-table">
+	      <tbody>
+	      <tr>
+	       <td class="	prize-cell level" data-id="1" ></td>
+	       <td class="	prize-cell level-2" data-id="2" ></td>
+	       <td class="	prize-cell level" data-id="3" ></td>
+	       <td class="	prize-cell level-3" data-id="4" ></td>
+	      </tr>
+	      <tr>
+	       <td class="	prize-cell level-3" data-id="12" ></td>	        			        	
+	       <td class="machine-control-cell" colspan="2" rowspan="2">
+	       <div class="machine-control"></div>
+	       </td>	        			 	        			
+	       <td class="	prize-cell level" data-id="5" ></td>      			
+	       </tr>
+	      <tr>
+	       <td class="	prize-cell level" data-id="11" ></td>
+	       <td class="	prize-cell level-2" data-id="6" ></td>
+	      </tr>
+	      <tr>
+	       <td class="	prize-cell level-1" data-id="10" ></td>
+	       <td class="	prize-cell level-3" data-id="9" ></td>
+	       <td class="	prize-cell level" data-id="8" ></td>
+	       <td class="	prize-cell level-3" data-id="7" ></td>
+	      </tr>
+	      </tbody>
+	</table>
+</div>
+<script type="text/javascript" src="./jquery.min.js"></script>
+<script type="text/javascript" src="../jslottery.js"></script>
+<script type="text/javascript">
+	var jslottery =	new Jslottery({
+		scroll_dom:'.prize-cell',
+		id:'1',
+		scroll_value:'#FFFF7E',
+		original_value:'#cb1573',	
+		change_mode:'background-color',
+		attr_id:'data-id',
+		callback:function(data){}
+		});
+	$('.machine-control').click(function(){
+		jslottery.start();
+	});
+</script>
+</body>
+</html>
