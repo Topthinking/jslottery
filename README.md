@@ -1,13 +1,17 @@
 JS抽奖类库(依赖于juqery库)
 @author Topthinking
 
+
 1.参数说明
 global 对象全局this
 curL  当前滚动元素的位置(标志位)
 curC  当前转的总圈数
 num  每一圈的总元素个数
 steps 每次点击抽奖实时转动的步数
+
+
 2.调用(下面显示的都是必填项)
+
 new Jslottery({
 	scroll_dom:'', //用来滚动的dom元素(必填)
 	id:0, //最终在哪个元素处停止(必填)
