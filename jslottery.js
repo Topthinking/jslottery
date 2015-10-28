@@ -2,7 +2,7 @@
  * js抽奖类库
  * @author Topthinking
  */
-/*;(function()*{
+/*;(function(window, factory){
 if(typeof define == 'function'){
   define(function(require, exports, module){
     return factory(require('common:jquery'));
@@ -11,7 +11,7 @@ if(typeof define == 'function'){
   window.FeatherUi = window.FeatherUi || {};
   window.FeatherUi.Template = factory();
 }
-}*)(*/
+})(window,function($){*/
 
 //global 对象全局this
 //curL  当前滚动元素的位置(标志位)
@@ -30,10 +30,9 @@ function Jslottery(opt){
 		speed_up:3,//加速处,相对于当前位置加(默认)
 		speed_down:2,//减速处,相对于结束位置相减(默认)
 		countC:1,//需要转的圈数(默认)
-		scroll_value:'',//滚动元素的属性值(必填)例如背景颜色
-		original_value:'',//元素原来的属性值(必填)例如背景颜色
+		scroll_value:'',//滚动元素的属性值(必填)
 		attr_id:'',//滚动元素上绑定的奖品号的属性名称，例如：data-id="1"(必填)
-		change_mode:'',//元素属性名称(必填)例如是改变背景颜色还是边框啊
+		change_mode:'',//元素属性名称(必填)
 		callback:function(){} //回调函数(必填)
 	},opt || {});
 
@@ -42,7 +41,8 @@ function Jslottery(opt){
 		cur_speed_up:'',//当前加速位置
 		cur_speed_down:'',//当前的减速位置
 		timeout:false,//用来关闭定时器的标识位
-		original_speed:''//初始传进来的速度
+		original_speed:'',//初始传进来的速度
+		dom_style:{}//获取滚动的dom元素每个的change_mode属性
 	};
 
 	this.init();
@@ -55,6 +55,22 @@ Jslottery.prototype = {
 		var selfs = global.fixs;
 		num = $(self.scroll_dom).length;	
 		selfs.original_speed = self.speed;
+		global.domstyle();
+	},
+
+	domstyle:function(){
+		var self = global.options;
+		var selfs = global.fixs;
+		var i=1;
+		$(self.scroll_dom).each(function(){
+			$(self.scroll_dom).each(function(){
+				if($(this).attr(self.attr_id) == i)
+				{
+					selfs.dom_style[i] = $(this).css(self.change_mode);
+					i++;
+				}
+			});
+		});
 	},
 
 	start:function(){
@@ -133,16 +149,25 @@ Jslottery.prototype = {
 
 	start_scroll:function(){
 		var self = global.options;
+		var selfs = global.fixs;
 		var scroll_json = {};
 		var original_json = {};
 
 		scroll_json[self.change_mode] = self.scroll_value;
-		original_json[self.change_mode] = self.original_value;
+
 		//遍历需要滚动的元素
 		$(self.scroll_dom).each(function(){
-			//根据每个元素的标识号来改变颜色			
+			//根据每个元素的标识号来改变颜色				
 			if($(this).attr(self.attr_id) == curL)
-			{					
+			{	
+				if(curL==1)
+				{					
+					original_json[self.change_mode] = selfs.dom_style[12];					
+				}
+				else
+				{
+					original_json[self.change_mode] = selfs.dom_style[curL-1];
+				}
 				$(this).css(scroll_json);				
 				$(self.scroll_dom).each(function(){
 					if(curL==1)
@@ -166,4 +191,4 @@ Jslottery.prototype = {
 	}
 };
 /*return Jslottery;
-)};*/
+});*/
