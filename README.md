@@ -1,4 +1,4 @@
-JS抽奖类库(依赖于juqery库)
+JS抽奖类库(依赖于juqery库)<br/>
 @author Topthinking
 
 
