@@ -1,6 +1,6 @@
 JS抽奖类库(依赖于juqery库)<br/>
-@author Topthinking
 ---------------------------
+@author Topthinking
 
 ###1.参数说明
 global 对象全局this<br/>
