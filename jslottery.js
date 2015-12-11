@@ -148,7 +148,7 @@
 				{	
 					if(curL==1)
 					{					
-						original_json[self.change_mode] = selfs.dom_style[12];					
+						original_json[self.change_mode] = selfs.dom_style[$(self.scroll_dom).length];					
 					}
 					else
 					{
