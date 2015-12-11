@@ -1,8 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-	<link rel="stylesheet" type="text/css" href="./test.css">	
+<title>js抽奖</title>
+<style>
+.machine{
+	margin: 0px auto;
+	width: 280px;
+}
+
+.prize-cell{
+	background-color: #cb1573;
+	width: 64px;
+	height: 66px;
+	position: relative;
+}
+
+.prize-cell::after{
+	background:rgba(0,0,0,0.2) none repeat scroll 0% 0%;
+	content: "";
+	bottom: 0px;
+	left: 0;
+	right: 0;
+	height: 5px;
+	position: absolute;
+}
+.machine-control-cell{			
+	background: url(start.png) no-repeat;
+}
+.machine-control{
+	width: 92px;
+	height: 96px;
+	position: absolute;
+	margin-left: 20px;
+	margin-top: -44px;
+	border-radius: 42%;
+}	
+</style>
 </head>
 <body>
 <div class="machine">
