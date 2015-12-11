@@ -2,6 +2,8 @@
  * js抽奖类库
  * @author Topthinking
  */
+ var Jslottery = (function(){
+
 	var global,curL=1,curC=0,num,steps=0;
 	
 	function Jslottery(opt){
@@ -174,3 +176,5 @@
 			});
 		}
 	};
+	return Jslottery;
+ })();

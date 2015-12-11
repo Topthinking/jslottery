@@ -2,19 +2,18 @@
 <html>
 <head>
 <title>js抽奖</title>
+<meta charset="utf-8"/>
 <style>
 .machine{
 	margin: 0px auto;
 	width: 280px;
 }
-
 .prize-cell{
 	background-color: #cb1573;
 	width: 64px;
 	height: 66px;
 	position: relative;
 }
-
 .prize-cell::after{
 	background:rgba(0,0,0,0.2) none repeat scroll 0% 0%;
 	content: "";
@@ -25,16 +24,22 @@
 	position: absolute;
 }
 .machine-control-cell{			
-	background: url(start.png) no-repeat;
+	background-color: #339afe;
 }
 .machine-control{
 	width: 92px;
 	height: 96px;
 	position: absolute;
-	margin-left: 20px;
-	margin-top: -44px;
+	margin: -44px 0px 0px 20px;
 	border-radius: 42%;
-}	
+	border: 1px solid #ff0;
+	cursor: pointer;
+}
+.machine-control span{
+	font-size: 30px;
+	float: left;
+	margin: 28px 0px 0px 16px;
+}
 </style>
 </head>
 <body>
@@ -50,7 +55,9 @@
 	      <tr>
 	       <td class="	prize-cell level-3" data-id="12" ></td>	        			        	
 	       <td class="machine-control-cell" colspan="2" rowspan="2">
-	       <div class="machine-control"></div>
+	       <div class="machine-control">
+	       <span>抽奖</span>
+	       </div>
 	       </td>	        			 	        			
 	       <td class="	prize-cell level" data-id="5" ></td>      			
 	       </tr>
@@ -72,13 +79,24 @@
 <script type="text/javascript">
 	var jslottery =	new Jslottery({
 		scroll_dom:'.prize-cell',
-		id:'1',
-		scroll_value:'#FFFF7E',	
+		id:Math.floor(Math.random()*12+1),
+		scroll_value:'#FFFF7E',
+		attr_id:'data-id',	
 		change_mode:'background-color',
-		attr_id:'data-id',
-		callback:function(data){}
+		callback:function(data){
+				if(data.status==1)
+				{					
+					$(jslottery.options.scroll_dom).each(function(){
+						if($(this).attr(jslottery.options.attr_id) == jslottery.options.id)
+						{
+							alert(jslottery.options.id);
+						}
+					});					
+				}
+			}
 		});
 	$('.machine-control').click(function(){
+		jslottery.options.id=Math.floor(Math.random()*12+1);
 		jslottery.start();
 	});
 </script>
