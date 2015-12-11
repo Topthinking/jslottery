@@ -8,17 +8,17 @@
 	
 	function Jslottery(opt){
 		this.options = $.extend({
-			scroll_dom:'', //用来滚动的dom元素(必填)
-			id:0, //最终在哪个元素处停止(必填)
+			scroll_dom:null, //用来滚动的dom元素(必填)
+			id:null, //最终在哪个元素处停止(必填)
 			speed:300,//转速(默认)
 			speedUp:50,//加速度(默认)
 			speedDown:400,//减速度(默认)
 			speed_up:3,//加速处,相对于当前位置加(默认)
 			speed_down:2,//减速处,相对于结束位置相减(默认)
-			countC:1,//需要转的圈数(默认)
-			scroll_value:'',//滚动元素的属性值(必填)
-			attr_id:'',//滚动元素上绑定的奖品号的属性名称，例如：data-id="1"(必填)
-			change_mode:'',//元素属性名称(必填)
+			countC:1,//需要转的圈数(默认)一开始是第0圈的，需要完整的一圈
+			scroll_value:null,//滚动元素的属性值(必填)
+			attr_id:null,//滚动元素上绑定的奖品号的属性名称，例如：data-id="1"(必填)
+			change_mode:null,//元素属性名称(必填)
 			callback:function(){} //回调函数(必填)
 		},opt || {});
 

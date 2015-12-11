@@ -6,7 +6,7 @@
 <style>
 .machine{
 	margin: 0px auto;
-	width: 280px;
+	width:280px;
 }
 .prize-cell{
 	background-color: #cb1573;
@@ -47,39 +47,39 @@
 	<table class="machine-table">
 	      <tbody>
 	      <tr>
-	       <td class="	prize-cell level" data-id="1" ></td>
-	       <td class="	prize-cell level-2" data-id="2" ></td>
-	       <td class="	prize-cell level" data-id="3" ></td>
-	       <td class="	prize-cell level-3" data-id="4" ></td>
+	       <td class="prize-cell" data-id="1"></td>
+	       <td class="prize-cell" data-id="2"></td>
+	       <td class="prize-cell" data-id="3"></td>
+	       <td class="prize-cell" data-id="4"></td>
 	      </tr>
 	      <tr>
-	       <td class="	prize-cell level-3" data-id="12" ></td>	        			        	
-	       <td class="machine-control-cell" colspan="2" rowspan="2">
+	       <td class="prize-cell" data-id="12"></td>	        			        	
+	       <td class="prize-cell" colspan="2" rowspan="2">
 	       <div class="machine-control">
 	       <span>抽奖</span>
 	       </div>
 	       </td>	        			 	        			
-	       <td class="	prize-cell level" data-id="5" ></td>      			
+	       <td class="prize-cell" data-id="5"></td>      			
 	       </tr>
 	      <tr>
-	       <td class="	prize-cell level" data-id="11" ></td>
-	       <td class="	prize-cell level-2" data-id="6" ></td>
+	       <td class="prize-cell" data-id="11"></td>
+	       <td class="prize-cell" data-id="6"></td>
 	      </tr>
 	      <tr>
-	       <td class="	prize-cell level-1" data-id="10" ></td>
-	       <td class="	prize-cell level-3" data-id="9" ></td>
-	       <td class="	prize-cell level" data-id="8" ></td>
-	       <td class="	prize-cell level-3" data-id="7" ></td>
+	       <td class="prize-cell" data-id="10"></td>
+	       <td class="prize-cell" data-id="9"></td>
+	       <td class="prize-cell" data-id="8"></td>
+	       <td class="prize-cell" data-id="7"></td>
 	      </tr>
 	      </tbody>
 	</table>
 </div>
-<script type="text/javascript" src="./jquery.min.js"></script>
-<script type="text/javascript" src="../jslottery.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="./jslottery.js"></script>
 <script type="text/javascript">
 	var jslottery =	new Jslottery({
 		scroll_dom:'.prize-cell',
-		id:Math.floor(Math.random()*12+1),
+		id:'1',
 		scroll_value:'#FFFF7E',
 		attr_id:'data-id',	
 		change_mode:'background-color',
