@@ -1,4 +1,4 @@
-JS抽奖类库(依赖于jquery库)<br/>
+JS抽奖类库(原生的Js代码)<br/>
 ---------------------------
 @author Topthinking
 

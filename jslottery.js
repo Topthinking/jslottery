@@ -1,14 +1,13 @@
 /*
  * @title Jslottery
- * @dependent Jquery
  * @author Topthinking
  */
  var Jslottery = (function(){
 
-	var global,curL=1,curC=0,num,steps=0,run=1;
+	var global;
 	
 	function Jslottery(opt){
-		this.options = $.extend({
+		var options = {
 			scroll_dom:null,
 			stop_position:null,
 			speed:300,
@@ -21,12 +20,19 @@
 			scroll_dom_attr:null,
 			scroll_dom_css:null,
 			callback:function(){}
-		},opt || {});
+		};
 
+		this.options = this.js_extend(options,opt);
 		
 		this.fixs = {
 			timeout:false,
 			original_speed:null,
+			curL:1,
+			curC:0,
+			num:null,
+			steps:0,
+			run:1,
+			error:false,
 			dom_style:{}
 		};
 
@@ -36,41 +42,66 @@
 	Jslottery.prototype = {
 		init:function(){
 			global = this;
-			global.judge_Null();
-			num = $(global.options.scroll_dom).length;	
+			global.judge_null();
+			global.judge_dom();
+			global.fixs.num = global.options.scroll_dom.length;	
 			global.fixs.original_speed = global.options.speed;
 			global.domstyle();
 		},
 
-		judge_Null:function(){
-			if(global.options.scroll_dom==null || 
-			   global.options.scroll_dom_attr==null || 
-			   global.options.scroll_dom_css==null || 
-			   global.options.scroll_dom_css_value==null ||
-			   global.options.stop_position==null){
-				global.options.callback({'status':'-1','data':'param error'});
+		js_extend:function(destination,source){
+			for (var property in source)
+				destination[property] = source[property];
+			return destination;
+		},
+
+		judge_null:function(){
+			var self = global.options;
+			if(self.scroll_dom==null || 
+			   self.scroll_dom_attr==null || 
+			   self.scroll_dom_css==null || 
+			   self.scroll_dom_css_value==null ||
+			   self.stop_position==null){
+			   	global.fixs.error=true;
+				self.callback({'status':'-1','data':'param error'});
 			}
 		},
 
+		judge_dom:function(){
+			var self = global.options;
+			self.scroll_dom =  document.getElementById(self.scroll_dom)==null ? document.getElementsByClassName(self.scroll_dom) : document.getElementById(self.scroll_dom);
+		},
+
 		domstyle:function(){
-			var self = global.options,i=1;
-			$(self.scroll_dom).each(function(){
-				$(self.scroll_dom).each(function(){
-					if($(this).attr(self.scroll_dom_attr) == i){
-						global.fixs.dom_style[i] = $(this).css(self.scroll_dom_css);
-						i++;
+			var self = global.options;
+			for(var i=0;i<=global.fixs.num;i++){
+				for(var j=0;j<global.fixs.num;j++){
+					if(self.scroll_dom[j].getAttribute(self.scroll_dom_attr) == i){
+						global.fixs.dom_style[i] = global.js_style(self.scroll_dom[j]);
 					}
-				});
-			});
+				}
+			}
+		},
+
+		js_style:function(obj){
+			if(obj.currentStyle){
+				return obj.currentStyle[global.options.scroll_dom_css];
+			}else{
+				return getComputedStyle(obj,false)[global.options.scroll_dom_css];
+			}
 		},
 
 		start:function(){
-			if(run)
+			if(global.fixs.error){
+				global.options.callback({'status':'-1','data':'param error'});
+				return false;
+			}
+			if(global.fixs.run)
 				global.options.callback({'status':'0','data':'Jslottery will start running'});
-			run=0;
+			global.fixs.run=0;
 			if(global.fixs.timeout){   
-				curC=0;
-				steps=0;
+				global.fixs.curC=0;
+				global.fixs.steps=0;
 				global.options.speed = global.fixs.original_speed;
 				global.fixs.timeout = false;			
 				global.stop();
@@ -83,11 +114,11 @@
 
 		stop:function(){
 			global.options.callback({'status':'1','data':global});
-			run=1;
+			global.fixs.run=1;
 		},
 
 		speedUp:function(){
-			if(steps==global.options.speed_up_position)
+			if(global.fixs.steps==global.options.speed_up_position)
 				global.options.speed = global.options.speedUp;
 		},
 
@@ -95,29 +126,29 @@
 			var tmp1 = global.options.stop_position-global.options.speed_down_position;
 			var tmp2 = global.options.total_circle+1;
 			if(tmp1<=0){
-				tmp1 = num + tmp1;
+				tmp1 = global.fixs.num + tmp1;
 				tmp2 = tmp2-1;
 			}
 
-			if(curL==tmp1 && curC==tmp2)
+			if(global.fixs.curL==tmp1 && global.fixs.curC==tmp2)
 				global.options.speed = global.options.speedDown;
 		},
 
 		changeNext:function(){
 
 			var self = global.options;
-			steps++;
+			global.fixs.steps++;
 			
-			if(curL==num+1){
-				curL=1;
-				curC++;
+			if(global.fixs.curL==global.fixs.num+1){
+				global.fixs.curL=1;
+				global.fixs.curC++;
 			}
 
 			global.speedUp();
 
 			global.speedDown();
 
-			if(curL==self.stop_position && curC==self.total_circle+1){
+			if(global.fixs.curL==self.stop_position && global.fixs.curC==self.total_circle+1){
 				global.fixs.timeout = true;
 			}
 
@@ -125,30 +156,33 @@
 		},
 
 		start_scroll:function(){
-			var self = global.options,scroll_json = {},original_json = {};
+			var self = global.options, scroll_json = {}, original_json = {};
 
 			scroll_json[self.scroll_dom_css] = self.scroll_dom_css_value;
 
-			$(self.scroll_dom).each(function(){				
-				if($(this).attr(self.scroll_dom_attr) == curL){	
-					original_json[self.scroll_dom_css] = curL==1 ? global.fixs.dom_style[$(self.scroll_dom).length] : global.fixs.dom_style[curL-1];
-					$(this).css(scroll_json);				
-					$(self.scroll_dom).each(function(){
-						if(curL==1){
-							$(self.scroll_dom).each(function(){
-								if($(this).attr(self.scroll_dom_attr) == num){
-									$(this).css(original_json);
+			for(var i=0;i<=global.fixs.num;i++){
+
+				if(self.scroll_dom[i].getAttribute(self.scroll_dom_attr)==global.fixs.curL){
+
+					original_json[self.scroll_dom_css] = global.fixs.curL==1 ? global.fixs.dom_style[global.fixs.num] : global.fixs.dom_style[global.fixs.curL-1];
+					self.scroll_dom[i].style.cssText=self.scroll_dom_css+":"+scroll_json[self.scroll_dom_css];
+					
+					for(var j=0;j<global.fixs.num;j++){
+						if(global.fixs.curL==1){
+							for(var k=0;k<global.fixs.num;k++){
+								if(self.scroll_dom[k].getAttribute(self.scroll_dom_attr)==global.fixs.num){
+									self.scroll_dom[k].style.cssText=self.scroll_dom_css+":"+original_json[self.scroll_dom_css];
 								}
-							});
+							}
+						}else if(self.scroll_dom[j].getAttribute(self.scroll_dom_attr)==global.fixs.curL-1){
+							self.scroll_dom[j].style.cssText=self.scroll_dom_css+":"+original_json[self.scroll_dom_css];
 						}
-						else if($(this).attr(self.scroll_dom_attr) == curL-1){
-							$(this).css(original_json);
-						}
-					});
-					curL++;
+					}
+
+					global.fixs.curL++;
 					return false;
 				}
-			});
+			}
 		}
 	};
 	return Jslottery;

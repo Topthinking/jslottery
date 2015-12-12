@@ -55,7 +55,7 @@
 	      <tr>
 	       <td class="prize-cell" data-id="12"></td>	        			        	
 	       <td class="machine-control-cell" colspan="2" rowspan="2">
-	       <div class="machine-control">
+	       <div class="machine-control" onclick="ClickMe(event)">
 	       <span>抽奖</span>
 	       </div>
 	       </td>	        			 	        			
@@ -74,11 +74,10 @@
 	      </tbody>
 	</table>
 </div>
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="./jslottery.js"></script>
 <script type="text/javascript">
 	var jslottery =	new Jslottery({
-		scroll_dom:'.prize-cell',
+		scroll_dom:'prize-cell',
 		stop_position:'1',
 		scroll_dom_css_value:'#FFFF7E',
 		scroll_dom_attr:'data-id',	
@@ -86,12 +85,7 @@
 		callback:function(data){
 			switch(data.status){
 					case '1':
-						$(jslottery.options.scroll_dom).each(function(){
-							if($(this).attr(jslottery.options.scroll_dom_attr) == jslottery.options.stop_position)
-							{
-								alert(jslottery.options.stop_position);
-							}
-						});	
+						alert(data.data.options.stop_position);
 					break;
 					case '-1':
 						alert(data.data);
@@ -102,10 +96,11 @@
 				}
 			}
 		});
-	$('.machine-control').click(function(){
+
+	 function ClickMe(){
 		jslottery.options.stop_position=Math.floor(Math.random()*12+1);
 		jslottery.start();
-	});
+	}
 </script>
 </body>
 </html>
