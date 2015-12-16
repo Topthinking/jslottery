@@ -9,12 +9,13 @@
 	function Jslottery(opt){
 		var options = {
 			scroll_dom:null,
+			start_position:null,
 			stop_position:null,
-			speed:300,
-			speedUp:50,
-			speedDown:400,
-			speed_up_position:3,
-			speed_down_position:2,
+			speed:400,
+			speedUp:null,
+			speedDown:null,
+			speed_up_position:null,
+			speed_down_position:null,
 			total_circle:1,
 			scroll_dom_css_value:null,
 			scroll_dom_attr:null,
@@ -27,7 +28,7 @@
 		this.fixs = {
 			timeout:false,
 			original_speed:null,
-			curL:1,
+			curL:null,
 			curC:0,
 			num:null,
 			steps:0,
@@ -46,6 +47,7 @@
 			global.judge_dom();
 			global.fixs.num = global.options.scroll_dom.length;	
 			global.fixs.original_speed = global.options.speed;
+			global.fixs.curL = global.options.start_position;
 			global.domstyle();
 		},
 

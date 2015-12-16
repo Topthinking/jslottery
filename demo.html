@@ -76,30 +76,29 @@
 </div>
 <script type="text/javascript" src="./jslottery.js"></script>
 <script type="text/javascript">
-	var jslottery =	new Jslottery({
+	var jslottery_1 = new Jslottery({
 		scroll_dom:'prize-cell',
+		start_position:3,
 		stop_position:'1',
 		scroll_dom_css_value:'#FFFF7E',
 		scroll_dom_attr:'data-id',	
 		scroll_dom_css:'background-color',
-		callback:function(data){
-			switch(data.status){
-					case '1':
-						alert(data.data.options.stop_position);
-					break;
-					case '-1':
-						alert(data.data);
-					break;
-					case '0':
-						alert(data.data);
-					break;
-				}
-			}
+		callback:function(data){}
+		});
+
+	var jslottery_2 = new Jslottery({
+		scroll_dom:'prize-cell',
+		start_position:'1',
+		stop_position:'1',
+		scroll_dom_css_value:'red',
+		scroll_dom_attr:'data-id',	
+		scroll_dom_css:'background-color',
+		callback:function(data){}
 		});
 
 	 function ClickMe(){
-		jslottery.options.stop_position=Math.floor(Math.random()*12+1);
-		jslottery.start();
+		jslottery_1.options.stop_position=3;
+		jslottery_1.start();
 	}
 </script>
 </body>
