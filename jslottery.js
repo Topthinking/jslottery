@@ -11,12 +11,12 @@
 			scroll_dom:null,
 			start_position:null,
 			stop_position:null,
-			speed:400,
+			speed:null,
 			speedUp:null,
 			speedDown:null,
 			speed_up_position:null,
 			speed_down_position:null,
-			total_circle:1,
+			total_circle:null,
 			scroll_dom_css_value:null,
 			scroll_dom_attr:null,
 			scroll_dom_css:null,
@@ -28,9 +28,8 @@
 		this.fixs = {
 			timeout:false,
 			original_speed:null,
-			curL:null,
-			curC:0,
 			num:null,
+			curC:0,
 			steps:0,
 			run:1,
 			error:false,
@@ -46,9 +45,7 @@
 			global.judge_null();
 			global.judge_dom();
 			global.fixs.num = global.options.scroll_dom.length;	
-			global.fixs.original_speed = global.options.speed;
-			global.fixs.curL = global.options.start_position;
-			global.domstyle();
+			global.domstyle();	
 		},
 
 		js_extend:function(destination,source){
@@ -62,8 +59,7 @@
 			if(self.scroll_dom==null || 
 			   self.scroll_dom_attr==null || 
 			   self.scroll_dom_css==null || 
-			   self.scroll_dom_css_value==null ||
-			   self.stop_position==null){
+			   self.scroll_dom_css_value==null){
 			   	global.fixs.error=true;
 				self.callback({'status':'-1','data':'param error'});
 			}
@@ -93,7 +89,7 @@
 			}
 		},
 
-		start:function(){
+		start:function(opt){
 			if(global.fixs.error){
 				global.options.callback({'status':'-1','data':'param error'});
 				return false;
@@ -132,7 +128,7 @@
 				tmp2 = tmp2-1;
 			}
 
-			if(global.fixs.curL==tmp1 && global.fixs.curC==tmp2)
+			if(global.options.start_position==tmp1 && global.fixs.curC==tmp2)
 				global.options.speed = global.options.speedDown;
 		},
 
@@ -141,8 +137,8 @@
 			var self = global.options;
 			global.fixs.steps++;
 			
-			if(global.fixs.curL==global.fixs.num+1){
-				global.fixs.curL=1;
+			if(global.options.start_position==global.fixs.num+1){
+				global.options.start_position=1;
 				global.fixs.curC++;
 			}
 
@@ -150,7 +146,7 @@
 
 			global.speedDown();
 
-			if(global.fixs.curL==self.stop_position && global.fixs.curC==self.total_circle+1){
+			if(global.options.start_position==self.stop_position && global.fixs.curC==self.total_circle+1){
 				global.fixs.timeout = true;
 			}
 
@@ -158,30 +154,33 @@
 		},
 
 		start_scroll:function(){
-			var self = global.options, scroll_json = {}, original_json = {};
+			var self = global.options, fix = global.fixs, scroll_json = {}, original_json = {};
 
 			scroll_json[self.scroll_dom_css] = self.scroll_dom_css_value;
 
 			for(var i=0;i<=global.fixs.num;i++){
 
-				if(self.scroll_dom[i].getAttribute(self.scroll_dom_attr)==global.fixs.curL){
+				if(self.scroll_dom[i].getAttribute(self.scroll_dom_attr)==self.start_position)
+				{
 
-					original_json[self.scroll_dom_css] = global.fixs.curL==1 ? global.fixs.dom_style[global.fixs.num] : global.fixs.dom_style[global.fixs.curL-1];
+					original_json[self.scroll_dom_css] = self.start_position==1 ? fix.dom_style[fix.num] : fix.dom_style[self.start_position-1];
 					self.scroll_dom[i].style.cssText=self.scroll_dom_css+":"+scroll_json[self.scroll_dom_css];
 					
-					for(var j=0;j<global.fixs.num;j++){
-						if(global.fixs.curL==1){
-							for(var k=0;k<global.fixs.num;k++){
-								if(self.scroll_dom[k].getAttribute(self.scroll_dom_attr)==global.fixs.num){
+					for(var j=0;j<fix.num;j++){
+						if(self.start_position==1)
+						{
+							for(var k=0;k<fix.num;k++){
+								if(self.scroll_dom[k].getAttribute(self.scroll_dom_attr)==fix.num){
 									self.scroll_dom[k].style.cssText=self.scroll_dom_css+":"+original_json[self.scroll_dom_css];
 								}
 							}
-						}else if(self.scroll_dom[j].getAttribute(self.scroll_dom_attr)==global.fixs.curL-1){
+						}else if(self.scroll_dom[j].getAttribute(self.scroll_dom_attr)==self.start_position-1)
+						{
 							self.scroll_dom[j].style.cssText=self.scroll_dom_css+":"+original_json[self.scroll_dom_css];
 						}
 					}
 
-					global.fixs.curL++;
+					self.start_position++;
 					return false;
 				}
 			}
