@@ -1,0 +1,98 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on https://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen">
+  <link rel="stylesheet" href="stylesheets/github-dark.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>Jslottery</title>
+  <meta name="description" content="Js抽奖库（Js跑马灯）">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Jslottery</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">Js抽奖库（Js跑马灯）</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/Topthinking/Jslottery/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/Topthinking/Jslottery/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/Topthinking/Jslottery" class="code">View Jslottery on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h2>
+<a id="js抽奖类库原生的js代码" class="anchor" href="#js%E6%8A%BD%E5%A5%96%E7%B1%BB%E5%BA%93%E5%8E%9F%E7%94%9F%E7%9A%84js%E4%BB%A3%E7%A0%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JS抽奖类库(原生的Js代码)<br>
+</h2>
+
+<p><a href="https://github.com/author" class="user-mention">@author</a> Topthinking</p>
+
+<h3>
+<a id="1参数说明" class="anchor" href="#1%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.参数说明</h3>
+
+<p>global 对象全局this<br>
+curC  当前转的总圈数<br>
+num  每一圈的总元素个数<br>
+steps 每次点击抽奖实时转动的步数<br>
+run 每次执行的标识码<br></p>
+
+<h3>
+<a id="2调用下面显示的都是必填项" class="anchor" href="#2%E8%B0%83%E7%94%A8%E4%B8%8B%E9%9D%A2%E6%98%BE%E7%A4%BA%E7%9A%84%E9%83%BD%E6%98%AF%E5%BF%85%E5%A1%AB%E9%A1%B9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.调用(下面显示的都是必填项)</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">new</span> <span class="pl-en">Jslottery</span>({
+    scroll_dom<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>, <span class="pl-c">//用来滚动的dom元素</span>
+    scroll_dom_css<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,<span class="pl-c">//每次滚动需要改变的元素属性名称 如 background-color、border...</span>
+    scroll_dom_css_value<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,<span class="pl-c">//滚动时需要改变的属性值 如 red、1px solid red...</span>
+    scroll_dom_attr<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>,<span class="pl-c">//滚动的元素上绑定的奖品id号 如 &lt;div data_id="1"&gt;&lt;/div&gt; 这里的data-id就是attr 这里的id数字必须是连续的正整数</span>
+    stop_position<span class="pl-k">:</span><span class="pl-c1">0</span>, <span class="pl-c">//最终在哪个元素处停止</span>
+    start_position<span class="pl-k">:</span><span class="pl-c1">1</span>,<span class="pl-c">//元素第一次开始的位置，以后 不需要再赋值了</span>
+    <span class="pl-en">callback</span><span class="pl-k">:</span><span class="pl-k">function</span>(<span class="pl-smi">data</span>){
+        <span class="pl-c">//这里进行回调函数的处理</span>
+        <span class="pl-k">switch</span>(<span class="pl-smi">data</span>.<span class="pl-c1">status</span>){
+            <span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>-1<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c">//异常处理</span>
+            <span class="pl-k">break</span>;
+            <span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>0<span class="pl-pds">'</span></span><span class="pl-k">:</span><span class="pl-c">//滚动开始</span>
+            <span class="pl-k">break</span>;
+            <span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>1<span class="pl-pds">'</span></span><span class="pl-k">:</span><span class="pl-c">//滚动结束</span>
+            <span class="pl-k">break</span>;
+        }
+    }
+});</pre></div>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/Topthinking" class="avatar"><img src="https://avatars0.githubusercontent.com/u/13382821?v=3&amp;s=60" width="48" height="48"></a> <a href="https://github.com/Topthinking">Topthinking</a> maintains <a href="https://github.com/Topthinking/Jslottery">Jslottery</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/Topthinking/Jslottery/tarball/master" class="tar">tar</a><a href="https://github.com/Topthinking/Jslottery/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
