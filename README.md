@@ -31,6 +31,6 @@ new Jslottery({
 		}
 	}
 });
-
+```
 ## 演示
 [demo](http://topthinking.github.io/demos/jslottery/)
