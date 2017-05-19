@@ -2,7 +2,7 @@ JS抽奖类库(原生的Js代码)<br/>
 ---------------------------
 @author Topthinking
 
-###1.参数说明
+### 1.参数说明
 global 对象全局this<br/>
 curC  当前转的总圈数<br/>
 num  每一圈的总元素个数<br/>
@@ -10,7 +10,7 @@ steps 每次点击抽奖实时转动的步数<br/>
 run 每次执行的标识码<br/>
 
 
-###2.调用(下面显示的都是必填项)
+### 2.调用(下面显示的都是必填项)
 ```Javascript
 new Jslottery({
 	scroll_dom:'', //用来滚动的dom元素
@@ -31,3 +31,6 @@ new Jslottery({
 		}
 	}
 });
+
+## 演示
+[demo](http://topthinking.github.io/demos/jslottery/)
