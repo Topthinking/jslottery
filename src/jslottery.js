@@ -10,31 +10,60 @@ function extend(destination,source){
     return destination;
 }
 
-var fixs = {
-    timeout:false,
-    original_speed:null,
-    num:null,
-    curC:0,
-    steps:0,
-    run:1,
-    error:false,
-    dom_style:{}
-};
+//删除一维数据的某一项
+function removeArrayValue(arr, val) {
+  for(var i=0; i<arr.length; i++) {
+    if(arr[i] == val) {
+      arr.splice(i, 1);
+      break;
+    }
+  }
+}
+
+/**
+ * 
+ * @param {*dom对象} obj 
+ * @param {*false:删除class中得active true:添加class中得active} clear 
+ */
+function changeDomActive(obj,clear=false){
+
+    let objClass = obj.getAttribute("class");
+
+    objClass = objClass.split(" ");
+
+    removeArrayValue(objClass,"active");
+
+    if(!clear){ 
+        objClass.push("active")
+    }
+
+    objClass = objClass.join(" ");
+
+    obj.className = objClass;
+
+}
+
+let domNumber,
+    LotteryTimeout = false,
+    LotteryCircle = 0,
+    LotteryCircleStep = 0,
+    LotteryFinish = true,
+    LotteryInitSpeed = null,
+    LotteryError = false;
+
 	
 function Jslottery(opt){
     var options = {
-        scroll_dom:null,
-        start_position:null,
-        stop_position:null,
+        scrollDom:null,
+        startPosition:null,
+        stopPosition:null,
         speed:null,
         speedUp:null,
         speedDown:null,
-        speed_up_position:null,
-        speed_down_position:null,
-        total_circle:null,
-        scroll_dom_css_value:null,
-        scroll_dom_attr:null,
-        scroll_dom_css:null,
+        speedUpPosition:null,
+        speedDownPosition:null,
+        totalCircle:null,
+        scrollId:null,
         callback:function(){}
     };
 
@@ -54,37 +83,44 @@ Jslottery.prototype.init = function () {
 
     var self = global.options;
 
-    var LotteryDom = scrollDom(self.scroll_dom,self.scroll_dom_css,self.scroll_dom_attr);
+    var LotteryDom = scrollDom(self.scrollDom,self.scrollId);
 
-    self.scroll_dom = LotteryDom.dom
-    fixs.dom_style = LotteryDom.domList
-    fixs.num = LotteryDom.domNumber
+    self.scrollDom = LotteryDom.dom
+
+    domNumber = LotteryDom.domNumber
+
+    LotteryInitSpeed = self.speed
 }
 
+/**
+ * 判断需要的参数是否全部传进来
+ */
 Jslottery.prototype.judge_null = function () {
     var self = global.options;
-    if(self.scroll_dom==null || 
-        self.scroll_dom_attr==null || 
-        self.scroll_dom_css==null || 
-        self.scroll_dom_css_value==null){
-        fixs.error=true;
+    if(self.scrollDom==null || 
+        self.scrollId==null 
+        ){
+        LotteryError=true;
         self.callback({'status':'-1','data':'param error'});
     }
 }
 
+/**
+ * 开始滚动
+ */
 Jslottery.prototype.start = function () {
-    if(fixs.error){
+    if(LotteryError){
         global.options.callback({'status':'-1','data':'param error'});
         return false;
     }
-    if(fixs.run)
+    if(LotteryFinish)
         global.options.callback({'status':'0','data':'Jslottery will start running'});
-    fixs.run=0;
-    if(fixs.timeout){   
-        fixs.curC=0;
-        fixs.steps=0;
-        global.options.speed = fixs.original_speed;
-        fixs.timeout = false;			
+    LotteryFinish=false;
+    if(LotteryTimeout){   
+        LotteryCircle=0;
+        LotteryCircleStep=0;
+        global.options.speed = LotteryInitSpeed;
+        LotteryTimeout = false;			
         global.stop();
         clearTimeout(global.start);
         return false;
@@ -93,76 +129,91 @@ Jslottery.prototype.start = function () {
     setTimeout(global.start,global.options.speed);
 }
 
+/**
+ * 停止滚动
+ */
 Jslottery.prototype.stop = function () {
     global.options.callback({'status':'1','data':global});
-    fixs.run=1;
+    LotteryFinish=true;
 }
 
+/**
+ * 加快速度
+ */
 Jslottery.prototype.speedUp = function () {
-    if(fixs.steps==global.options.speed_up_position)
+    if(LotteryCircleStep==global.options.speedUpPosition)
         global.options.speed = global.options.speedUp;
 }
 
+/**
+ * 减缓速度
+ */
 Jslottery.prototype.speedDown = function () {
-    var tmp1 = global.options.stop_position-global.options.speed_down_position;
-    var tmp2 = global.options.total_circle+1;
+    var tmp1 = global.options.stopPosition-global.options.speedDownPosition;
+    var tmp2 = global.options.totalCircle+1;
     if(tmp1<=0){
-        tmp1 = fixs.num + tmp1;
+        tmp1 = domNumber + tmp1;
         tmp2 = tmp2-1;
     }
 
-    if(global.options.start_position==tmp1 && fixs.curC==tmp2)
+    if(global.options.startPosition==tmp1 && LotteryCircle==tmp2)
         global.options.speed = global.options.speedDown;
 }
 
+/**
+ * 滚动的依次改变的效果
+ */
 Jslottery.prototype.changeNext = function () {
     var self = global.options;
-    fixs.steps++;
+    LotteryCircleStep++;
+
+    if(self.totalCircle==0 && global.options.startPosition==self.stopPosition){
+        LotteryTimeout = true
+    }
     
-    if(global.options.start_position==fixs.num+1){
-        global.options.start_position=1;
-        fixs.curC++;
+    if(global.options.startPosition==domNumber+1){
+        global.options.startPosition=1;
+        LotteryCircle++;
     }
 
     global.speedUp();
 
     global.speedDown();
 
-    if(global.options.start_position==self.stop_position && fixs.curC==self.total_circle+1){
-        fixs.timeout = true;
+    if(global.options.startPosition==self.stopPosition && LotteryCircle==self.totalCircle+1){
+        LotteryTimeout = true;
     }
 
     global.start_scroll();
 }
 
+/**
+ * 实现滚动的核心逻辑
+ */
 Jslottery.prototype.start_scroll = function () {
-    var self = global.options, fix = fixs, scroll_json = {}, original_json = {};
+    var self = global.options;
 
-    scroll_json[self.scroll_dom_css] = self.scroll_dom_css_value;
+    for(var i=1;i<=domNumber;i++){
 
-    for(var i=0;i<=fixs.num;i++){
-
-        if(self.scroll_dom[i].getAttribute(self.scroll_dom_attr)==self.start_position)
+        if(self.scrollDom[i].getAttribute(self.scrollId)==self.startPosition)
         {
-
-            original_json[self.scroll_dom_css] = self.start_position==1 ? fix.dom_style[fix.num] : fix.dom_style[self.start_position-1];
-            self.scroll_dom[i].style.cssText=self.scroll_dom_css+":"+scroll_json[self.scroll_dom_css];
-            
-            for(var j=0;j<fix.num;j++){
-                if(self.start_position==1)
+            changeDomActive(self.scrollDom[i]);
+  
+            for(var j=1;j<=domNumber;j++){
+                if(self.startPosition==1)
                 {
-                    for(var k=0;k<fix.num;k++){
-                        if(self.scroll_dom[k].getAttribute(self.scroll_dom_attr)==fix.num){
-                            self.scroll_dom[k].style.cssText=self.scroll_dom_css+":"+original_json[self.scroll_dom_css];
+                    for(var k=1;k<=domNumber;k++){
+                        if(self.scrollDom[k].getAttribute(self.scrollId)==domNumber){
+                            changeDomActive(self.scrollDom[k],true);
                         }
                     }
-                }else if(self.scroll_dom[j].getAttribute(self.scroll_dom_attr)==self.start_position-1)
+                }else if(self.scrollDom[j].getAttribute(self.scrollId)==self.startPosition-1)
                 {
-                    self.scroll_dom[j].style.cssText=self.scroll_dom_css+":"+original_json[self.scroll_dom_css];
+                    changeDomActive(self.scrollDom[j],true);
                 }
             }
 
-            self.start_position++;
+            self.startPosition++;
             return false;
         }
     }
