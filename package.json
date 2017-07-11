@@ -1,8 +1,8 @@
 {
   "name": "jslottery",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "通过原生js实现了抽奖的显示功能，可以在多个框架中进行使用",
-  "main": "jslottery.js",
+  "main": "build/jslottery.min.js",
   "scripts": {
     "dev": "webpack-dev-server --port 9090 --inline --hot --content-base ./demo --host 0.0.0.0",
     "build": "webpack --config webpack.prod.js"
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/Topthinking/Jslottery.git"
   },
-  "author": "",
+  "author": "Topthinking",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Topthinking/Jslottery/issues"
