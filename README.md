@@ -1,36 +1,149 @@
-JS抽奖类库(原生的Js代码)  正在进行npm改造<br/>
----------------------------
-@author Topthinking
+jslottery
+=========
 
-### 1.参数说明
-global 对象全局this<br/>
-curC  当前转的总圈数<br/>
-num  每一圈的总元素个数<br/>
-steps 每次点击抽奖实时转动的步数<br/>
-run 每次执行的标识码<br/>
+[![npm](https://img.shields.io/npm/v/jslottery.svg?style=flat-square)](https://www.npmjs.com/package/jslottery)
+
+[例子在这里](http://topthinking.github.io/demos/jslottery/)
 
 
-### 2.调用(下面显示的都是必填项)
-```Javascript
-new Jslottery({
-	scroll_dom:'', //用来滚动的dom元素
-	scroll_dom_css:'',//每次滚动需要改变的元素属性名称 如 background-color、border...
-	scroll_dom_css_value:'',//滚动时需要改变的属性值 如 red、1px solid red...
-	scroll_dom_attr:'',//滚动的元素上绑定的奖品id号 如 <div data_id="1"></div> 这里的data-id就是attr 这里的id数字必须是连续的正整数
-	stop_position:0, //最终在哪个元素处停止
-	start_position:1,//元素第一次开始的位置，以后 不需要再赋值了
-	callback:function(data){
-		//这里进行回调函数的处理
-		switch(data.status){
-			case '-1': //异常处理
-			break;
-			case '0'://滚动开始
-			break;
-			case '1'://滚动结束
-			break;
-		}
-	}
-});
+## Usage
+
+### npm 安装
+
 ```
-## 演示
-[demo](http://topthinking.github.io/demos/jslottery/)
+$ npm install jslottery
+```
+
+### 示例
+
+#### HTML
+
+```html
+<div class="machine">
+	<table class="machine-table">
+	      <tbody>
+	      <tr>
+	       <td class="prize-cell" data-id="1" ></td>
+	       <td class="prize-cell" data-id="2" ></td>
+	       <td class="prize-cell" data-id="3" ></td>
+	       <td class="prize-cell" data-id="4" ></td>
+	      </tr>
+	      <tr>
+	       <td class="prize-cell" data-id="12" ></td>	        			        	
+	       <td class="machine-control-cell" colspan="2" rowspan="2">
+	       <div class="machine-control" onclick="ClickMe(event)">
+	       <span>抽奖</span>
+	       </div>
+	       </td>	        			 	        			
+	       <td class="prize-cell" data-id="5" ></td>      			
+	       </tr>
+	      <tr>
+	       <td class="prize-cell" data-id="11" ></td>
+	       <td class="prize-cell" data-id="6" ></td>
+	      </tr>
+	      <tr>
+	       <td class="prize-cell" data-id="10"></td>
+	       <td class="prize-cell" data-id="9" ></td>
+	       <td class="prize-cell" data-id="8" ></td>
+	       <td class="prize-cell" data-id="7" ></td>
+	      </tr>
+	      </tbody>
+	</table>
+</div>
+```
+
+#### CSS
+
+```css
+.machine{
+	margin: 0px auto;
+	width:280px;
+}
+.prize-cell{
+	background-color: #cb1573;
+	width: 64px;
+	height: 66px;
+	position: relative;
+}
+.prize-cell.active{
+	background-color: #ffff7e;
+}
+.prize-cell::after{
+	background:rgba(0,0,0,0.2) none repeat scroll 0% 0%;
+	content: "";
+	bottom: 0px;
+	left: 0;
+	right: 0;
+	height: 5px;
+	position: absolute;
+}
+.machine-control-cell{			
+	background-color: #278EF2;
+}
+.machine-control{
+	width: 92px;
+	height: 96px;
+	position: absolute;
+	margin: -44px 0px 0px 20px;
+	border-radius: 42%;
+	border: 1px solid #ff0;
+	cursor: pointer;
+}
+.machine-control span{
+	font-size: 30px;
+	float: left;
+	margin: 28px 0px 0px 16px;
+}
+```
+
+#### JavaScript
+
+``` javascript
+'use strict'
+
+Jslottery = require('jslottery')
+
+
+var lottery = Jslottery({
+		scrollDom:'prize-cell',
+		scrollId:'data-id',		
+		startPosition:1,
+		callback:function(data){
+           
+        }
+	});
+
+function ClickMe(){
+	lottery.options.stopPosition=Math.floor(Math.random()*1+11);		
+	lottery.options.speed=Math.floor(Math.random()*200+300);
+	lottery.options.speedUpPosition=Math.floor(Math.random()*6+1);
+	lottery.options.speedDownPosition=Math.floor(Math.random()*6+1);
+	lottery.options.speedUp=Math.floor(Math.random()*30+20);
+	lottery.options.speedDown=Math.floor(Math.random()*100+600);
+	lottery.options.totalCircle=Math.floor(Math.random()*2+5);
+	lottery.start();
+}
+
+```
+
+## 如何构建
+jslottery的源码是基于webpack构建的
+
+首先，clone项目源码
+```bash
+git clone https://github.com/Topthinking/Jslottery.git
+```
+
+安装依赖
+```bash
+cd Jslottery
+npm install
+```
+测试demo页
+
+```bash
+npm run dev
+```
+打开浏览器访问如下地址, 查看效果
+
+> localhost:9090

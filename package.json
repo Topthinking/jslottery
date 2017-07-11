@@ -1,7 +1,7 @@
 {
   "name": "jslottery",
-  "version": "1.0.0",
-  "description": "JS抽奖类库(原生的Js代码) @author Topthinking",
+  "version": "0.0.1",
+  "description": "通过原生js实现了抽奖的显示功能，可以在多个框架中进行使用",
   "main": "jslottery.js",
   "scripts": {
     "dev": "webpack-dev-server --port 9090 --inline --hot --content-base ./demo --host 0.0.0.0",

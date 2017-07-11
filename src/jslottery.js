@@ -43,28 +43,28 @@ function changeDomActive(obj,clear=false){
 
 }
 
-let domNumber,
-    LotteryTimeout = false,
-    LotteryCircle = 0,
-    LotteryCircleStep = 0,
-    LotteryFinish = true,
-    LotteryInitSpeed = null,
-    LotteryError = false;
+let domNumber,                      //dom个数
+    LotteryTimeout = false,         //当前滚动定时器
+    LotteryCircle = 0,              //当前滚动圈数
+    LotteryCircleStep = 0,          //当前滚动总步数
+    LotteryFinish = true,           //判断是否滚动完成
+    LotteryInitSpeed = null,        //记录正常的滚动速度
+    LotteryError = false;           //是否显示滚动错误
 
 	
-function Jslottery(opt){
+function Jslottery(opt = {}){
     var options = {
-        scrollDom:null,
-        startPosition:null,
-        stopPosition:null,
-        speed:null,
-        speedUp:null,
-        speedDown:null,
-        speedUpPosition:null,
-        speedDownPosition:null,
-        totalCircle:null,
-        scrollId:null,
-        callback:function(){}
+        scrollDom:null,                         //滚动显示的dom  这里是使用class名称
+        startPosition:null,                     //开始位置
+        stopPosition:null,                      //停止位置
+        totalCircle:null,                       //滚动的圈数
+        speed:null,                             //正常速度
+        speedUp:null,                           //加速的时候速度
+        speedDown:null,                         //减速的时候速度
+        speedUpPosition:null,                   //加速点
+        speedDownPosition:null,                 //减速点
+        scrollId:null,                          //滚动的dom上的属性号，是用来标记滚动结束获得的id号对应的奖项
+        callback:function(){}                   //滚动回调函数
     };
 
     this.options = extend(options,opt);
