@@ -101,15 +101,33 @@ $ npm install jslottery
 ``` javascript
 'use strict'
 
-Jslottery = require('jslottery')
+let Jslottery = require('jslottery')
 
 
 var lottery = Jslottery({
 		scrollDom:'prize-cell',
 		scrollId:'data-id',		
 		startPosition:1,
-		callback:function(data){
-           
+		callback:function(type,data){
+			if(type==1){
+				//开始滚动
+				console.log("开始")
+			}
+
+			if(type==2){
+				//滚动完成
+				console.log("结束")
+			}
+
+			if(type==0){
+				//出现错误
+				console.log("错误")
+			}
+
+			if(type==3){
+				//滚动每一个格子
+				console.log(data)
+			}
         }
 	});
 
@@ -124,6 +142,42 @@ function ClickMe(){
 	lottery.start();
 }
 
+```
+## 参数说明
+```	javascript
+let domNumber,                      //dom个数
+    Lottery,                        //全局的Lottery对象                     
+    LotteryTimeout = false,         //当前滚动定时器
+    LotteryCircle = 0,              //当前滚动圈数
+    LotteryCircleStep = 0,          //当前滚动总步数
+    LotteryFinish = false,          //判断是否滚动完成
+    LotteryInitSpeed = null,        //记录正常的滚动速度
+    LotteryError = false,           //错误标识
+    LotteryStarted = false;         //开始滚动
+
+var options = {
+        scrollDom:null,                         //滚动显示的dom  这里是使用class名称
+        startPosition:1,                        //开始位置
+        stopPosition:2,                         //停止位置
+        totalCircle:2,                          //滚动的圈数
+        speed:400,                              //正常速度  （这里的速度就是定时器的时间间隔，间隔越短，速度越快）
+        speedUp:100,                            //加速的时候速度
+        speedDown:600,                          //减速的时候速度
+        speedUpPosition:3,                      //加速点 （这里会和滚动的总步数进行比较 理论上总步数 = 总长度 * 总圈数 + stopPosition - startPosition +1 ）
+        speedDownPosition:5,                    //减速点
+        scrollId:null,                          //滚动的dom上的属性号，是用来标记滚动结束获得的id号对应的奖项
+        callback:function(type){}               /**
+                                                 *	滚动回调函数   
+												 *	回调类型		 
+												 					type==1 : 开始滚动 
+                                                                 	type==2 : 停止滚动
+                                                                	type==0 : 出现错误
+                                                                	type==3 : 滚动每个格子的回调
+												 *	回调内容      	
+												 					data = {}
+                                                 */
+                                                
+    };
 ```
 
 ## 如何构建
