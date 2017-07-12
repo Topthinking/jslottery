@@ -1,6 +1,6 @@
 {
   "name": "jslottery",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "通过原生js实现了抽奖的显示功能，可以在多个框架中进行使用",
   "main": "build/jslottery.min.js",
   "scripts": {
