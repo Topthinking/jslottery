@@ -5,6 +5,17 @@ import Jslottery from '../../src'
 export default class App extends React.Component {
 
     start() { 
+        this.lottery.options.stopPosition=Math.floor(Math.random()*1+11);		
+        this.lottery.options.speed=Math.floor(Math.random()*200+300);
+        this.lottery.options.speedUpPosition=Math.floor(Math.random()*6+1);
+        this.lottery.options.speedDownPosition=Math.floor(Math.random()*6+1);
+        this.lottery.options.speedUp=Math.floor(Math.random()*30+20);
+        this.lottery.options.speedDown=Math.floor(Math.random()*100+600);
+        this.lottery.options.totalCircle = Math.floor(Math.random() * 2 + 5);
+        this.lottery.start();
+    }
+
+    componentDidMount() { 
         this.lottery = Jslottery({
             scrollDom:'prize-cell',
             scrollId:'data-id',		
@@ -32,15 +43,6 @@ export default class App extends React.Component {
                 }
             }
         })
-
-        this.lottery.options.stopPosition=Math.floor(Math.random()*1+11);		
-        this.lottery.options.speed=Math.floor(Math.random()*200+300);
-        this.lottery.options.speedUpPosition=Math.floor(Math.random()*6+1);
-        this.lottery.options.speedDownPosition=Math.floor(Math.random()*6+1);
-        this.lottery.options.speedUp=Math.floor(Math.random()*30+20);
-        this.lottery.options.speedDown=Math.floor(Math.random()*100+600);
-        this.lottery.options.totalCircle = Math.floor(Math.random() * 2 + 5);
-        this.lottery.start();
     }
 
     render() {
