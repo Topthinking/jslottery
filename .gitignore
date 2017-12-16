@@ -1,4 +1,5 @@
 node_modules
+.cache
 
 #打包
 dist
