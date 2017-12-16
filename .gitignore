@@ -1,1 +1,8 @@
 node_modules
+
+#打包
+dist
+
+#发布
+publish
+build.js

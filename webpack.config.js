@@ -4,14 +4,13 @@ var webpack = require('webpack');
 
 module.exports = {
 	entry: {
-		jslottery: './src/jslottery.js'
+		jslottery: './src'
 	},
 	output: {
-		path: __dirname + '/build',
-		filename: '[name].js',
+		path: __dirname + '/dist',
+		filename: 'jslottery.min.js',
 		library: 'jslottery',
-		libraryTarget:'umd',
-		publicPath: '/assets/'
+		libraryTarget: 'umd'
 	},
 	module: {
 		loaders: [
@@ -26,6 +25,11 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false
+			}
+		}),
 		new webpack.DefinePlugin({
 			__VERSION__: JSON.stringify(version)
 		})

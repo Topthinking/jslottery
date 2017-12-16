@@ -76,7 +76,7 @@ function Jslottery(opt = {}){
                                                 
     };
 
-    this.version = __VERSION__;
+    this.version = typeof __VERSION__ == 'undefined' ? opt.version : __VERSION__;
 
     Lottery = this;
 

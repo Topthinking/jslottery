@@ -1,11 +1,10 @@
 {
   "name": "jslottery",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "通过原生js实现了抽奖的显示功能，可以在多个框架中进行使用",
-  "main": "build/jslottery.min.js",
+  "main": "dist/jslottery.min.js",
   "scripts": {
-    "dev": "webpack-dev-server --port 9090 --inline --hot --content-base ./demo --host 0.0.0.0",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",

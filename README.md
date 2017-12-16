@@ -3,8 +3,13 @@ jslottery
 
 [![npm](https://img.shields.io/npm/v/jslottery.svg?style=flat-square)](https://www.npmjs.com/package/jslottery)
 
-[例子在这里](http://topthinking.github.io/demos/jslottery/)
+实现效果
 
+![](./docs/jslottery.gif)
+
+example
+
+`react` `normal`
 
 ## Usage
 
@@ -180,24 +185,24 @@ var options = {
     };
 ```
 
-## 如何构建
-jslottery的源码是基于webpack构建的
+## 如何开发编译源码
 
-首先，clone项目源码
+`jslottery`的是通过`webpack`进行打包的
+
+`example`是使用`parcel`进行构建的
+
 ```bash
+#克隆
 git clone https://github.com/Topthinking/Jslottery.git
-```
 
-安装依赖
-```bash
+#依赖
 cd Jslottery
 npm install
-```
-测试demo页
 
-```bash
+#测试用例
+cd example/normal
 npm run dev
 ```
-打开浏览器访问如下地址, 查看效果
 
-> localhost:9090
+打开浏览器访问 `localhost:3000`
+
